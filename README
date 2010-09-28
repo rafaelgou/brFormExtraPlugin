@@ -294,16 +294,16 @@ arquivo **apps/SUA_APLICACAO/config/settings.yml** e acrescentar:
 
 **Exemplo**
 
-  <?php
-    $form->setWidget("data_i18n", new sfWidgetFormInputText());
-    $form->getWidgetSchema()->setLabel("data_i18n", "Data i18n");
-    $form->setValidator("data_i18n", new sfValidatori18nDate());
-  ?>
-  <p>
-    <?php echo $form["data_i18n"]->renderError() ?>
-    <?php echo $form["data_i18n"]->renderLabel() ?>
-    <?php echo $form["data_i18n"] ?>
-  </p>
+    <?php
+      $form->setWidget("data_i18n", new sfWidgetFormInputText());
+      $form->getWidgetSchema()->setLabel("data_i18n", "Data i18n");
+      $form->setValidator("data_i18n", new sfValidatori18nDate());
+    ?>
+    <p>
+      <?php echo $form["data_i18n"]->renderError() ?>
+      <?php echo $form["data_i18n"]->renderLabel() ?>
+      <?php echo $form["data_i18n"] ?>
+    </p>
 
 **Opções**
 

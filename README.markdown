@@ -175,6 +175,55 @@ Dica: o melhor é configurar no arquivo YAML.
           RS: Rio Grande do Sul
           SC: Santa Catarina
 
+**Usando em conjunto com ORM - Propel e Doctrine**
+
+Para que o widget possa trabalhar adequadamente com o ORN, deve receber os valores em forma de array.
+
+Da mesma forma, o armazenamento é em apenas um campo VARCHAR. Considerando que são
+27 estados + DF, 2 caracteres cada mais o separador, o máximo do campo é de 80 caracteres
+
+*Propel*
+
+    # config/schema.yml
+    cadastro:
+      uf: { phpName: Uf, type: VARCHAR, size: '80' }
+
+
+    // (...)
+    // Seu model, como lib/model/Cadastro.php
+    public function getUf()
+    {
+      return sfWidgetFormSelectCheckboxStates::getExplodedValue($this->uf);
+    }
+
+    public function setUf($v)
+    {
+      parent::setUf(sfWidgetFormSelectCheckboxStates::getImplodedValue($v));
+    }
+    // (...)
+
+
+*Doctrine*
+
+    # config/doctrine/schema.yml
+    Cadastro:
+      columns:
+        uf: { type: string(100) }
+
+
+    // (...)
+    // Seu model, como lib/model/doctrine/Cadastro.php
+    public function getUf()
+    {
+      return sfWidgetFormSelectCheckboxStates::getExplodedValue($this->_get('uf'));
+    }
+
+    public function setUf($v)
+    {
+      parent::_set('uf',sfWidgetFormSelectCheckboxStates::getImplodedValue($v));
+    }
+    // (...)
+
 
 ###sfValidatorCpfCnpj###
 
@@ -245,16 +294,16 @@ arquivo **apps/SUA_APLICACAO/config/settings.yml** e acrescentar:
 
 **Exemplo**
 
-  <?php
-    $form->setWidget("data_i18n", new sfWidgetFormInputText());
-    $form->getWidgetSchema()->setLabel("data_i18n", "Data i18n");
-    $form->setValidator("data_i18n", new sfValidatori18nDate());
-  ?>
-  <p>
-    <?php echo $form["data_i18n"]->renderError() ?>
-    <?php echo $form["data_i18n"]->renderLabel() ?>
-    <?php echo $form["data_i18n"] ?>
-  </p>
+    <?php
+      $form->setWidget("data_i18n", new sfWidgetFormInputText());
+      $form->getWidgetSchema()->setLabel("data_i18n", "Data i18n");
+      $form->setValidator("data_i18n", new sfValidatori18nDate());
+    ?>
+    <p>
+      <?php echo $form["data_i18n"]->renderError() ?>
+      <?php echo $form["data_i18n"]->renderLabel() ?>
+      <?php echo $form["data_i18n"] ?>
+    </p>
 
 **Opções**
 
