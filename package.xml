@@ -12,8 +12,8 @@
   </lead>
   <date>2010-09-28</date>
   <version>
-    <release>1.0.0</release>
-    <api>1.0.0</api>
+    <release>1.0.1</release>
+    <api>1.0.1</api>
   </version>
   <stability>
     <release>stable</release>
@@ -80,11 +80,27 @@
         <name>symfony</name>
         <channel>pear.symfony-project.com</channel>
         <min>1.2.0</min>
+        <max>1.5.0</max>
       </package>
     </required>
   </dependencies>
   <phprelease></phprelease>
   <changelog>
+    <release>
+      <version>
+        <release>1.0.1</release>
+        <api>1.0.1</api>
+      </version>
+      <stability>
+        <release>stable</release>
+        <api>stable</api>
+      </stability>
+      <license uri="http://www.gnu.org/licenses/gpl-3.0-standalone.html">LGPL3</license>
+      <date>2010-09-28</date>
+      <notes>
+         * rafaelgou: Docs updated, include Propel and Doctrine info to save and retrieve states
+      </notes>
+    </release>
     <release>
       <version>
         <release>1.0.0</release>
