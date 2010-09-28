@@ -1,0 +1,53 @@
+# a label or false
+all_checkbox: "Todo o Brasil"
+
+separator: ";"
+
+regions:
+
+  norte:
+    label: "Região Norte"
+    states:
+      AC: Acre
+      AP: Amapá
+      AM: Amazonas
+      PA: Pará
+      RO: Rondônia
+      RR: Roraima
+      TO: Tocantins
+
+  nordeste:
+    label: "Região Nordeste"
+    states:
+      AL: Alagoas
+      BA: Bahia
+      CE: Ceará
+      MA: Maranhão
+      PB: Paraíba
+      PE: Pernambuco
+      PI: Piauí
+      RN: Rio Grande do Norte
+      SE: Sergipe
+
+  centrooeste:
+    label: "Região Centro-Oeste"
+    states:
+      DF: Distrito Federal
+      GO: Goiás
+      MG: Mato Grosso
+      MS: Mato Grosso do Sul
+
+  sudeste:
+    label: "Região Sudeste"
+    states:
+      ES: Espírito Santo
+      MG: Minas Gerais
+      RJ: Rio de Janeiro
+      SP: São Paulo
+
+  sul:
+    label: "Região Sul"
+    states:
+      PR: Paraná
+      RS: Rio Grande do Sul
+      SC: Santa Catarina
