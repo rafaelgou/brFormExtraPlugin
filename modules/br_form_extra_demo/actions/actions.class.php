@@ -34,12 +34,16 @@ class br_form_extra_demoActions extends Basebr_form_extra_demoActions
     $this->form->setWidget("cpfcnpj", new sfWidgetFormInputText());
     $this->form->getWidgetSchema()->setLabel("cpfcnpj", "CPF/CNPJ");
 
+    $this->form->setWidget("data_i18n", new sfWidgetFormInputText());
+    $this->form->getWidgetSchema()->setLabel("data_i18n", "Data i18n");
+
     $this->form->setValidators(array(
         "uf" =>          new sfValidatorChoiceStates(),
         "uf_checkbox" => new sfValidatorChoiceStates(array('min'=>5, 'max'=>10)),
         "cpf" =>         new sfValidatorCpfCnpj(array("type"=>"cpf")),
         "cnpj" =>        new sfValidatorCpfCnpj(array("type"=>"cnpj")),
         "cpfcnpj" =>     new sfValidatorCpfCnpj(array("type"=>"cpfcnpj")),
+        "data_i18n" =>   new sfValidatori18nDate(),
       ));
     //$f = new sfForm;
 

@@ -1,28 +1,72 @@
-<?xml version="1.0" encoding="##ENCODING##"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <package xmlns="http://pear.php.net/dtd/package-2.0" xmlns:tasks="http://pear.php.net/dtd/tasks-1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" packagerversion="1.4.1" version="2.0" xsi:schemaLocation="http://pear.php.net/dtd/tasks-1.0 http://pear.php.net/dtd/tasks-1.0.xsd http://pear.php.net/dtd/package-2.0 http://pear.php.net/dtd/package-2.0.xsd">
-  <name>sfBoletoPlugin</name>
+  <name>brFormExtraPlugin</name>
   <channel>plugins.symfony-project.org</channel>
-  <summary>Geração de Boletos (Brazilian Payment Method)</summary>
-  <description>Geração de Boletos (Brazilian Payment Method)</description>
+  <summary>Widgets e validadores brasileiros (Brazilian Widgets and Validators)</summary>
+  <description>Widgets e validadores para comunidade brasileira do symfony (Brazilian Widgets and Validators)</description>
   <lead>
     <name>Rafael Goulart</name>
     <user>rafaelgou</user>
     <email>rafaelgou@rgou.net</email>
     <active>yes</active>
   </lead>
-  <date>2010-09-17</date>
+  <date>2010-09-28</date>
   <version>
-    <release>0.9.0</release>
-    <api>0.9.0</api>
+    <release>1.0.0</release>
+    <api>1.0.0</api>
   </version>
   <stability>
-    <release>unstable</release>
-    <api>unstable</api>
+    <release>stable</release>
+    <api>stable</api>
   </stability>
-  <license uri="http://www.gnu.org/licenses/gpl-3.0-standalone.html">GPL3 license</license>
+  <license uri="http://www.gnu.org/licenses/gpl-3.0-standalone.html">LGPL3</license>
   <notes>-</notes>
   <contents>
-    <!-- CONTENT -->
+  <dir name="/">
+    <file role="data" name="README" />
+    <file role="data" name="README.markdown" />
+    <file role="data" name="LICENSE" />
+    <file role="data" name="VERSION" />
+    <dir name="config">
+      <file role="data" name="states.yml" />
+    </dir>
+    <dir name="lib">
+      <dir name="widget">
+        <file role="data" name="sfWidgetFormChoiceUFBR.class.php" />
+        <file role="data" name="sfWidgetFormSelectCheckboxStates.class.php" />
+      </dir>
+    </dir>
+    <dir name="lib">
+      <dir name="validator">
+        <file role="data" name="sfValidatorCpfCnpj.class.php" />
+        <file role="data" name="sfValidatorChoiceStates.class.php" />
+        <dir name="i18n">
+          <file role="data" name="sfValidatori18nDate.class.php" />
+        </dir>
+      </dir>
+    </dir>
+    <dir name="modules">
+      <dir name="br_form_extra_demo">
+        <dir name="templates">
+          <file role="data" name="indexSuccess.php" />
+        </dir>
+        <dir name="lib">
+          <file role="data" name="Basebr_form_extra_demoActions.class.php" />
+        </dir>
+        <dir name="actions">
+          <file role="data" name="actions.class.php" />
+        </dir>
+      </dir>
+    </dir>
+    <dir name="web">
+      <dir name="js">
+        <file role="data" name="main.js" />
+      </dir>
+      <dir name="css">
+        <file role="data" name="main.css" />
+      </dir>
+    </dir>
+  </dir>
   </contents>
   <dependencies>
     <required>
@@ -43,17 +87,15 @@
   <changelog>
     <release>
       <version>
-        <release>0.9.0</release>
-        <api>0.9.0</api>
+        <release>1.0.0</release>
+        <api>1.0.0</api>
       </version>
       <stability>
-        <release>unstable</release>
-        <api>unstable</api>
+        <release>stable</release>
+        <api>stable</api>
       </stability>
-      <license uri="http://www.symfony-project.com/license">
-        MIT license
-      </license>
-      <date>2010-09-17</date>
+      <license uri="http://www.gnu.org/licenses/gpl-3.0-standalone.html">LGPL3</license>
+      <date>2010-09-28</date>
       <notes>
          * rafaelgou: First release of the plugin
       </notes>

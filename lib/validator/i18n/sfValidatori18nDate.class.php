@@ -9,7 +9,7 @@
  */
 
 /**
- * sfValidatorCpfCnpj validates a CPF (Brazilian individual taxpayer identification) or CNPJ (Brazilian taxpayer identification)
+ * sfValidatori18nDate validates DateTime based on Culture
  * packaged by Rafael Goulart <rafaelgou@rgou.net>
  *
  * @package    symfony

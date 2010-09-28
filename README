@@ -1,12 +1,9 @@
 # brFormExtraPlugin #
 
-## Introdução ##
+Widgets e validadores para comunidade brasileira do symfony.
 
 
-Installation
-------------
-
-*symfony*
+## Instalação ##
 
 Para instalar o plugin num projeto symfony, utilize a linha de comando usual do symfony:
 
@@ -36,6 +33,11 @@ E, por último, publique os assets.
 
 ### sfWidgetFormChoiceUFBR , sfValidatorChoiceStates ###
 
+- **sfWidgetFormChoiceUFBR**: 
+  Renderiza um SELECT com lista de estados (UFs - Unidades da Federação) brasileiros
+- **sfValidatorChoiceStates**: 
+  Valida lista de estados (UFs - Unidades da Federação) brasileiros
+
 **Exemplo 1**
 
     <?php
@@ -64,19 +66,31 @@ E, por último, publique os assets.
 
 **Opções**
 
-   - add_empty:        Whether to add a first empty value or not (false by default)
-                       If the option is not a Boolean, the value will be used as the text value
-   - multiple:         true if the select tag must allow multiple selections
-   - expanded:         true to display an expanded widget
-                       if expanded is false, then the widget will be a select
-                       if expanded is true and multiple is false, then the widget will be a list of radio
-                       if expanded is true and multiple is true, then the widget will be a list of checkbox
-   - renderer_class:   The class to use instead of the default ones
-   - renderer_options: The options to pass to the renderer constructor
-   - renderer:         A renderer widget (overrides the expanded and renderer_options options)
-                       The choices option must be: new sfCallable($thisWidgetInstance, "getChoices"")
+- add_empty:
+  Whether to add a first empty value or not (false by default)
+  If the option is not a Boolean, the value will be used as the text value
+- multiple:
+  true if the select tag must allow multiple selections
+- expanded:
+  true to display an expanded widget
+  if expanded is false, then the widget will be a select
+  if expanded is true and multiple is false, then the widget will be a list of radio
+  if expanded is true and multiple is true, then the widget will be a list of checkbox
+- renderer_class:
+  The class to use instead of the default ones
+- renderer_options:
+  The options to pass to the renderer constructor
+- renderer:
+  A renderer widget (overrides the expanded and renderer_options options)
+  The choices option must be: new sfCallable($thisWidgetInstance, "getChoices"")
 
 ###sfWidgetFormSelectCheckboxStates , sfValidatorChoiceStates###
+
+- **sfWidgetFormSelectCheckboxStates**:
+  Renderiza checkboxes com lista de estados (UFs - Unidades da Federação) brasileiros,
+  agrupados por região e permitindo selecionar por região e todos
+
+**Exemplo**
 
     <?php
       $form->setWidget("uf_checkbox", new sfWidgetFormSelectCheckboxStates());
@@ -90,12 +104,17 @@ E, por último, publique os assets.
     </p>
 
 **Opções**
-   - label_separator: The separator to use between the input checkbox and the label
-   - class:           The class to use for the main <ul> tag
-   - separator:       The separator to use between each input checkbox
-   - formatter:       A callable to call to format the checkbox choices
-                      The formatter callable receives the widget and the array of inputs as arguments
-   - template:        The template to use when grouping option in groups (%group% %options%)
+- label_separator:
+  The separator to use between the input checkbox and the label
+- class:
+  The class to use for the main <ul> tag
+- separator:
+  The separator to use between each input checkbox
+- formatter:
+  A callable to call to format the checkbox choices
+  The formatter callable receives the widget and the array of inputs as arguments
+- template:
+  The template to use when grouping option in groups (%group% %options%)
 
 Dica: o melhor é configurar no arquivo YAML. 
 
@@ -157,8 +176,10 @@ Dica: o melhor é configurar no arquivo YAML.
 
 
 ###sfValidatorCpfCnpj###
+Valida uma entrada em formato de CPF ou CNPJ. Permite retorna o valor sem formatação (padrão)
+ou formatado (formated=>true) para armazenamento em banco de dados.
 
-**CPF**
+**Exemplo CPF**
 
     <?php
       $form->setWidget("cpf", new sfWidgetFormInputText());
@@ -171,7 +192,7 @@ Dica: o melhor é configurar no arquivo YAML.
       <?php echo $form["cpf"] ?>
     </p>
 
-**CNPJ**
+**Exemplo CNPJ**
 
     <?php
       $form->setWidget("cnpj", new sfWidgetFormInputText());
@@ -184,7 +205,7 @@ Dica: o melhor é configurar no arquivo YAML.
       <?php echo $form["cnpj"] ?>
     </p>
 
-**CPF/CNPJ**
+**Exemplo CPF/CNPJ**
 
     <?php
       $form->setWidget("cpfcnpj", new sfWidgetFormInputText());
@@ -198,8 +219,75 @@ Dica: o melhor é configurar no arquivo YAML.
     </p>
 
 **Opções**
+- type:
+  Type of validation (cpfcnpj, cpf, cnpj - default: cpfcnpj)
+- formated:
+  If true "clean" method returns a formated value, i.e. 000.000.000-00 (default: false)
+  Use to store formated value in DB
 
-    Available options:
-    - type:     Type of validation (cpfcnpj, cpf, cnpj - default: cpfcnpj)
-    - formated: If true "clean" method returns a formated value, i.e. 000.000.000-00 (default: false)
-                Use to store formated value in DB
+###sfValidatori18nDate###
+
+Valida uma data enviada por um input text contra o padrão do idioma do usuário.
+Utiliza o sfContext para recuperar a "culture" do "user".
+Este validador foi copiado de: (http://trac.symfony-project.org/attachment/ticket/6256/sfValidatorL10nDate.class.php),
+enviado por logistiker. Realizei apenas ajustes cosméticos, como mudança do nome.
+
+É necessário definir o idioma (culture) do usuário para a desejada. A forma mais simples é editar o
+arquivo **apps/SUA_APLICACAO/config/settings.yml** e acrescentar:
+
+    all:
+      .settings:
+        i18n:                   true
+        default_culture:        pt_BR
+
+**Exemplo**
+
+  <?php
+    $form->setWidget("data_i18n", new sfWidgetFormInputText());
+    $form->getWidgetSchema()->setLabel("data_i18n", "Data i18n");
+    $form->setValidator("data_i18n", new sfValidatori18nDate());
+  ?>
+  <p>
+    <?php echo $form["data_i18n"]->renderError() ?>
+    <?php echo $form["data_i18n"]->renderLabel() ?>
+    <?php echo $form["data_i18n"] ?>
+  </p>
+
+**Opções**
+As opções são as mesmas da classe pai, sfValidatorDate, acrescidas do "context" - que
+não precisa ser enviado, é recuperado automaticamente se não informado.
+
+- date_format:
+  A regular expression that dates must match
+- with_time:
+  true if the validator must return a time, false otherwise
+- date_output:
+  The format to use when returning a date (default to Y-m-d)
+- datetime_output:
+  The format to use when returning a date with time (default to Y-m-d H:i:s)
+- date_format_error:
+  The date format to use when displaying an error for a bad_format error
+  (use date_format if not provided)
+- max:
+  The maximum date allowed (as a timestamp)
+- min:
+  The minimum date allowed (as a timestamp)
+- date_format_range_error:
+  The date format to use when displaying an error for min/max (default to d/m/Y H:i:s)
+- context:
+  The symfony application context
+    *
+
+**Códigos de erro**
+- bad_format
+- min
+- max
+
+## Demonstração ##
+
+Habilite a demonstração editando o arquivo **apps/SUA_APLICACAO/config/settings.yml** e
+acrescentando a **enabled_modules**
+
+    all:
+      .settings:
+        enabled_modules: [default, br_form_extra_demo]

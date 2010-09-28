@@ -9,6 +9,7 @@ pre {background: #666;color: #fff; margin: 0 20px;}
 h1 {border-bottom: 3px solid #555}
 h2 {border-bottom: 1px solid #555; margin-top: 100px;}
 h3 {border-bottom: 1px dashed #555; font-style: italic}
+p  {margin: 10px 20px;}
 pre {margin: 0 20px;}
 </style>
 <h1>brFormExtraPlugin Demonstração</h1>
@@ -82,6 +83,8 @@ pre {margin: 0 20px;}
 </pre>
 
 <h2>sfWidgetFormSelectCheckboxStates , sfValidatorChoiceStates</h2>
+
+<h3>Exemplo</h3>
 
 <p>
   <?php echo $form["uf_checkbox"]->renderError() ?>
@@ -182,6 +185,8 @@ regions:
 
 <h2>sfValidatorCpfCnpj</h2>
 
+<h3>Exemplo</h3>
+
 <p>
   <?php echo $form["cpf"]->renderError() ?>
   <?php echo $form["cpf"]->renderLabel() ?>
@@ -257,6 +262,59 @@ regions:
 
 ');?>
 </pre>
+
+<h2>sfValidatori18nDate</h2>
+Informe uma data no padrão do idioma definido para o usuário.
+
+<h3>Exemplo</h3>
+
+<p>
+  <?php echo $form["data_i18n"]->renderError() ?>
+  <?php echo $form["data_i18n"]->renderLabel() ?>
+  <?php echo $form["data_i18n"] ?>
+</p>
+
+<pre>
+<?php echo htmlspecialchars('
+  <?php
+    $form->setWidget("data_i18n", new sfWidgetFormInputText());
+    $form->getWidgetSchema()->setLabel("data_i18n", "Data i18n");
+    $form->setValidator("data_i18n", new sfValidatori18nDate());
+  ?>
+  <p>
+    <?php echo $form["data_i18n"]->renderError() ?>
+    <?php echo $form["data_i18n"]->renderLabel() ?>
+    <?php echo $form["data_i18n"] ?>
+  </p>
+');?>
+  </pre>
+
+<h3>Opções</h3>
+
+<pre>
+<?php echo htmlspecialchars('
+   * Available options:
+   *
+    *  * date_format:             A regular expression that dates must match
+    *  * with_time:               true if the validator must return a time, false otherwise
+    *  * date_output:             The format to use when returning a date (default to Y-m-d)
+    *  * datetime_output:         The format to use when returning a date with time (default to Y-m-d H:i:s)
+    *  * date_format_error:       The date format to use when displaying an error for a bad_format error
+    *                             (use date_format if not provided)
+    *  * max:                     The maximum date allowed (as a timestamp)
+    *  * min:                     The minimum date allowed (as a timestamp)
+    *  * date_format_range_error: The date format to use when displaying an error for min/max (default to d/m/Y H:i:s)
+    *  * context:                 The symfony application context
+    *
+    * Available error codes:
+    *
+    *  * bad_format
+    *  * min
+    *  * max
+');?>
+</pre>
+
+
 
 <br/><br/>
 
