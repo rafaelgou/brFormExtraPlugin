@@ -104,6 +104,7 @@ E, por último, publique os assets.
     </p>
 
 **Opções**
+
 - label_separator:
   The separator to use between the input checkbox and the label
 - class:
@@ -176,6 +177,7 @@ Dica: o melhor é configurar no arquivo YAML.
 
 
 ###sfValidatorCpfCnpj###
+
 Valida uma entrada em formato de CPF ou CNPJ. Permite retorna o valor sem formatação (padrão)
 ou formatado (formated=>true) para armazenamento em banco de dados.
 
@@ -219,6 +221,7 @@ ou formatado (formated=>true) para armazenamento em banco de dados.
     </p>
 
 **Opções**
+
 - type:
   Type of validation (cpfcnpj, cpf, cnpj - default: cpfcnpj)
 - formated:
@@ -254,6 +257,7 @@ arquivo **apps/SUA_APLICACAO/config/settings.yml** e acrescentar:
   </p>
 
 **Opções**
+
 As opções são as mesmas da classe pai, sfValidatorDate, acrescidas do "context" - que
 não precisa ser enviado, é recuperado automaticamente se não informado.
 
@@ -279,6 +283,7 @@ não precisa ser enviado, é recuperado automaticamente se não informado.
     *
 
 **Códigos de erro**
+
 - bad_format
 - min
 - max
