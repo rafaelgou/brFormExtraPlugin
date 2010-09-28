@@ -88,6 +88,21 @@
   <changelog>
     <release>
       <version>
+        <release>1.0.2</release>
+        <api>1.0.2</api>
+      </version>
+      <stability>
+        <release>stable</release>
+        <api>stable</api>
+      </stability>
+      <license uri="http://www.gnu.org/licenses/gpl-3.0-standalone.html">LGPL3</license>
+      <date>2010-09-28</date>
+      <notes>
+         * rafaelgou: Minor README markdown corrections
+      </notes>
+    </release>
+    <release>
+      <version>
         <release>1.0.1</release>
         <api>1.0.1</api>
       </version>
