@@ -47,7 +47,6 @@ class sfValidatorCpfCnpj extends sfValidatorString
   protected function doClean($value)
   {
     $clean = (string) $value;
-
     $length = function_exists('mb_strlen') ? mb_strlen($clean, $this->getCharset()) : strlen($clean);
 
     switch ($this->getOption('type')) {
@@ -155,16 +154,14 @@ class sfValidatorCpfCnpj extends sfValidatorString
    * @param $value string
    * @author Rafael Goulart <rafaelgou@rgou.net>
    */
-  protected function valueClean ($value) {
-
-    $value = str_replace (')','',$value);
-    $value = str_replace ('(','',$value);
-    $value = str_replace ('/','',$value);
-    $value = str_replace ('.','',$value);
-    $value = str_replace ('-','',$value);
-    $value = str_replace (' ','',$value);
+  protected function valueClean ($value)
+  {
+    $value = str_replace (array(')','(','/','.','-',' '),'',$value);
+    if(strlen($value) == 15)
+    {
+      $value =  substr($value, 1, 15); 
+    }
     return $value;
-
   }
 
   /**
@@ -174,7 +171,7 @@ class sfValidatorCpfCnpj extends sfValidatorString
    * @author Rafael Goulart <rafaelgou@rgou.net>
    */
   protected function formatCPFCNPJ ($value) {
-
+    $value = $this->valueClean($value);
     if (strlen($value) == 11)
     {
       return substr($value, 0, 3) . '.' .
@@ -183,11 +180,17 @@ class sfValidatorCpfCnpj extends sfValidatorString
              substr($value, 9, 2);
 
     } else {
-      return substr($value, 0, 2) . '.' .
+        $f = substr($value, 0, 2) . '.' .
              substr($value, 2, 3) . '.' .
              substr($value, 5, 3) . '/' .
              substr($value, 8, 4) . '-' .
              substr($value, 12, 2);
+     
+	    if(strlen($value) == 14)
+	    {
+	      $f =  '0' . $f; 
+	    }
+        return $f;       
     }
 
   }
