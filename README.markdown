@@ -90,6 +90,8 @@ E, por último, publique os assets.
   Renderiza checkboxes com lista de estados (UFs - Unidades da Federação) brasileiros,
   agrupados por região e permitindo selecionar por região e todos
 
+![Preview sfWidgetFormSelectCheckboxStates](http://github.com/rafaelgou/brFormExtraPlugin/raw/master/docs/sfWidgetFormSelectCheckboxStates.png)
+
 **Exemplo**
 
     <?php
