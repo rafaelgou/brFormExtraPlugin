@@ -34,7 +34,7 @@ regions:
     states:
       DF: Distrito Federal
       GO: Goiás
-      MG: Mato Grosso
+      MT: Mato Grosso
       MS: Mato Grosso do Sul
 
   sudeste:
