@@ -42,7 +42,8 @@ class br_form_extra_demoActions extends Basebr_form_extra_demoActions
       "bairro"     => "demo_bairro",
       "cidade"     => "demo_cidade",
       "uf"         => "demo_uf_cep",
-      "cep"        => "demo_cep"
+      "cep"        => "demo_cep",
+      "codigo_ibge" => "demo_codibge",
     );
     $this->form->setWidget("cep", new sfWidgetFormInputCep( array("fields" => $fields_for_cep) ));
     $this->form->getWidgetSchema()->setLabel("cep", "CEP");
@@ -59,18 +60,23 @@ class br_form_extra_demoActions extends Basebr_form_extra_demoActions
     $this->form->setWidget("uf_cep", new sfWidgetFormChoiceUFBR());
     $this->form->getWidgetSchema()->setLabel("uf_cep", "UF");
 
+    $this->form->setWidget("codibge", new sfWidgetFormInput());
+    $this->form->getWidgetSchema()->setLabel("codibge", "Código IBGE");
+
+
     $this->form->setValidators(array(
-        "uf" =>          new sfValidatorChoiceStates(),
+        "uf"          => new sfValidatorChoiceStates(),
         "uf_checkbox" => new sfValidatorChoiceStates(array("min"=>5, "max"=>10)),
-        "cpf" =>         new sfValidatorCpfCnpj(array("type"=>"cpf")),
-        "cnpj" =>        new sfValidatorCpfCnpj(array("type"=>"cnpj")),
-        "cpfcnpj" =>     new sfValidatorCpfCnpj(array("type"=>"cpfcnpj")),
-        "data_i18n" =>   new sfValidatori18nDate(),
-        "cep" =>         new sfValidatorCep(),
-        "logradouro" =>  new sfValidatorString(array("required"=>false)),
-        "bairro" =>      new sfValidatorString(array("required"=>false)),
-        "cidade" =>      new sfValidatorString(array("required"=>false)),
-        "uf_cep" =>      new sfValidatorString(array("required"=>false)),
+        "cpf"         => new sfValidatorCpfCnpj(array("type"=>"cpf")),
+        "cnpj"        => new sfValidatorCpfCnpj(array("type"=>"cnpj")),
+        "cpfcnpj"     => new sfValidatorCpfCnpj(array("type"=>"cpfcnpj")),
+        "data_i18n"   => new sfValidatori18nDate(),
+        "cep"         => new sfValidatorCep(),
+        "logradouro"  => new sfValidatorString(array("required"=>false)),
+        "bairro"      => new sfValidatorString(array("required"=>false)),
+        "cidade"      => new sfValidatorString(array("required"=>false)),
+        "uf_cep"      => new sfValidatorString(array("required"=>false)),
+        "codibge"     => new sfValidatorString(array("required"=>false)),
       ));
     //$f = new sfForm;
 

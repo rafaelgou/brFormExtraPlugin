@@ -337,7 +337,11 @@ Informe uma data no padrão do idioma definido para o usuário.
   <?php echo $form["uf_cep"]->renderError() ?>
   <?php echo $form["uf_cep"]->renderLabel() ?>
   <?php echo $form["uf_cep"] ?>
-</p>
+<br/>
+  <?php echo $form["codibge"]->renderError() ?>
+  <?php echo $form["codibge"]->renderLabel() ?>
+  <?php echo $form["codibge"] ?>
+  </p>
 
 <pre>
 <?php echo htmlspecialchars('
@@ -391,6 +395,10 @@ Informe uma data no padrão do idioma definido para o usuário.
       <?php echo $form["uf_cep"]->renderError() ?>
       <?php echo $form["uf_cep"]->renderLabel() ?>
       <?php echo $form["uf_cep"] ?>
+    <br/>
+      <?php echo $form["codibge"]->renderError() ?>
+      <?php echo $form["codibge"]->renderLabel() ?>
+      <?php echo $form["codibge"] ?>
     </p>
 ');?>
 </pre>
@@ -401,7 +409,9 @@ Informe uma data no padrão do idioma definido para o usuário.
 <?php echo htmlspecialchars("
 all:
   br_cep:
+
     # Buscar na base local (Cep Brasil importado)
+    # Utilizar format: republicavirtual
     local_search:  false
 
     # Array com lista de IPs que podem acessar remotamente
@@ -410,30 +420,57 @@ all:
     #client_ips: ['200.217.64.146', '200.217.64.147']
     client_ips: false
 
-    # Se definido, requisição ajax é direta para remote_url,
-    # e não para url_for('br_cep/buscar')
-    direct_url:    false
+    # Fonte: http://ceplivre.pc2consultoria.com
+    # -----------------------------------------
+    format: ceplivre
 
-    # Default: http://republicavirtual.com.br
-    remote_url:    'http://republicavirtual.com.br/web_cep.php'
-    remote_query:  'cep='
-    remote_format: 'json'
+    remote_url:    'http://ceplivre.pc2consultoria.com/index.php'
+    remote_query:  'module=cep&formato=xml&cep='
+    remote_format: 'xml'
 
-    # Do not change to http://republicavirtual.com.br
+    # Do not change remote_fields to http://rceplivre.pc2consultoria.com
     remote_fields:
-      uf:              uf
-      cidade:          cidade
-      bairro:          bairro
+      resultado:       sucesso
       tipo_logradouro: tipo_logradouro
       logradouro:      logradouro
+      uf:              estado_sigla
+      uf_descricao:    estado
+      cidade:          cidade
+      bairro:          bairro
       cep:             cep
+      codigo_ibge:     codigo_ibge
+
     form_fields:
-      uf:              uf
+      logradouro:      logradouro
+      estado_sigla:    uf
       cidade:          cidade
       bairro:          bairro
-      tipo_logradouro: tipo_logradouro
-      logradouro:      logradouro
       cep:             cep
+      codigo_ibge:     codibge
+
+    # Fonte: http://republicavirtual.com.br
+    # -------------------------------------
+#    format: republicavirtual
+#    remote_url:    'http://republicavirtual.com.br/web_cep.php'
+#    remote_query:  'formato=json&cep='
+#    remote_format: 'json'
+#    # Do not change remote_fields to http://rceplivre.pc2consultoria.com
+#    remote_fields:
+#      resultado:       resultado
+#      uf:              uf
+#      cidade:          cidade
+#      bairro:          bairro
+#      tipo_logradouro: tipo_logradouro
+#      logradouro:      logradouro
+#      cep:             cep
+#    form_fields:
+#      uf:              uf
+#      cidade:          cidade
+#      bairro:          bairro
+#      tipo_logradouro: tipo_logradouro
+#      logradouro:      logradouro
+#      cep:             cep
+
 
 ");?>
 </pre>

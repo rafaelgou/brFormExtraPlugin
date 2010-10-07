@@ -44,10 +44,6 @@ class sfWidgetFormInputCep extends sfWidgetFormInputText
     $status = '<button id="loading_' . $id . '" class="sfWidgetFormInputCep_find" type="button" ' .
               'onclick="br_cepFind_' . $id . '()">&nbsp;</button>';
 
-    $url = (sfConfig::get('app_br_cep_direct_url'))
-           ? sfConfig::get('app_br_cep_remote_url')
-           : url_for('br_cep/buscar');
-
     $javascript = '
 <script language="javascript" type="text/javascript">
 /* <![CDATA[ */
@@ -56,7 +52,7 @@ function br_cepFind_' . $id . '()
 ' . "
   $.ajax({
     type:'GET',
-    url: '" . $url . "',
+    url: '" . url_for('br_cep/buscar') . "',
     beforeSend: function(XMLHttpRequest) {
         $('#loading_" . $id . "').removeAttr('class');
         $('#loading_" . $id . "').addClass('sfWidgetFormInputCep_loading');
