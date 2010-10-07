@@ -58,7 +58,7 @@ function br_cepFind_' . $id . '()
         $('#loading_" . $id . "').addClass('sfWidgetFormInputCep_loading');
       },
     dataType: 'json',
-    data: '" . sfConfig::get('app_br_cep_remote_query') . "'+$('#" . $id . "').val(),
+    data: 'cep='+$('#" . $id . "').val(),
     failure: function(XMLHttpRequest, textStatus) {
         $('#loading_" . $id . "').removeAttr('class');
         $('#loading_" . $id . "').addClass('sfWidgetFormInputCep_error');

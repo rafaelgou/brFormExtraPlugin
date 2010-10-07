@@ -84,7 +84,7 @@ class br_cepActions extends Basebr_cepActions
         $url = sfConfig::get('app_br_cep_remote_url') . '?' .
                sfConfig::get('app_br_cep_remote_query') . 
                $cep_search;
-
+//echo $url;
         $content = file_get_contents($url);
 
         $remote_fields = array_flip(sfConfig::get('app_br_cep_remote_fields'));
@@ -112,6 +112,7 @@ class br_cepActions extends Basebr_cepActions
 
             foreach ($xml->cep[0] as $key => $value)
             {
+
               if (isset($remote_fields[$key]))
               {
                 $v = each($value[0]);

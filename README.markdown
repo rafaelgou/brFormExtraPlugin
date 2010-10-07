@@ -371,6 +371,9 @@ não precisa ser enviado, é recuperado automaticamente se não informado.
 - **sfValidatorCep**:
   Valida CEP remotamente (ainda não ativo - retorna sempre TRUE no momento).
 
+Utiliza ou o serviço do site CEPLivre (<http://republicavirtual.com.br/cep/>)
+ou do site Republica Virtual (<http://ceplivre.pc2consultoria.com/index.php>).
+
 **Exemplo**
 
     <?php
@@ -379,7 +382,8 @@ não precisa ser enviado, é recuperado automaticamente se não informado.
         "bairro"     => "demo_bairro",
         "cidade"     => "demo_cidade",
         "uf"         => "demo_uf_cep",
-        "cep"        => "demo_cep"
+        "cep"        => "demo_cep",
+        "codigo_ibge" => "demo_codibge",
       );
 
       $this->form->setWidget("cep", new sfWidgetFormInputCep( array("fields" => $fields_for_cep) ));
@@ -401,6 +405,11 @@ não precisa ser enviado, é recuperado automaticamente se não informado.
       $this->form->setWidget("uf_cep", new sfWidgetFormChoiceUFBR());
       $this->form->getWidgetSchema()->setLabel("uf_cep", "UF");
       $form->setValidator("uf_cep", new sfValidatorString());
+
+      $this->form->setWidget("codibge", new sfWidgetFormInput());
+      $this->form->getWidgetSchema()->setLabel("codibge", "Código IBGE");
+      $form->setValidator("codibge", new sfValidatorString());
+
     ?>
 
     <p>
@@ -423,6 +432,10 @@ não precisa ser enviado, é recuperado automaticamente se não informado.
       <?php echo $form["uf_cep"]->renderError() ?>
       <?php echo $form["uf_cep"]->renderLabel() ?>
       <?php echo $form["uf_cep"] ?>
+    <br/>
+      <?php echo $form["codibge"]->renderError() ?>
+      <?php echo $form["codibge"]->renderLabel() ?>
+      <?php echo $form["codibge"] ?>
     </p>
 
 **Opções**
@@ -434,7 +447,9 @@ não precisa ser enviado, é recuperado automaticamente se não informado.
 
     all:
       br_cep:
+
         # Buscar na base local (Cep Brasil importado)
+        # Utilizar format: republicavirtual
         local_search:  false
 
         # Array com lista de IPs que podem acessar remotamente
@@ -443,30 +458,55 @@ não precisa ser enviado, é recuperado automaticamente se não informado.
         #client_ips: ['200.217.64.146', '200.217.64.147']
         client_ips: false
 
-        # Se definido, requisição ajax é direta para remote_url,
-        # e não para url_for('br_cep/buscar')
-        direct_url:    false
+        # Fonte: http://ceplivre.pc2consultoria.com
+        # -----------------------------------------
+        format: ceplivre
 
-        # Default: http://republicavirtual.com.br
-        remote_url:    'http://republicavirtual.com.br/web_cep.php'
-        remote_query:  'cep='
-        remote_format: 'json'
+        remote_url:    'http://ceplivre.pc2consultoria.com/index.php'
+        remote_query:  'module=cep&formato=xml&cep='
 
-        # Do not change to http://republicavirtual.com.br
+        # Do not change remote_fields to http://rceplivre.pc2consultoria.com
         remote_fields:
-          uf:              uf
-          cidade:          cidade
-          bairro:          bairro
+          resultado:       sucesso
           tipo_logradouro: tipo_logradouro
           logradouro:      logradouro
+          uf:              estado_sigla
+          uf_descricao:    estado
+          cidade:          cidade
+          bairro:          bairro
           cep:             cep
+          codigo_ibge:     codigo_ibge
+
         form_fields:
-          uf:              uf
+          logradouro:      logradouro
+          estado_sigla:    uf
           cidade:          cidade
           bairro:          bairro
-          tipo_logradouro: tipo_logradouro
-          logradouro:      logradouro
           cep:             cep
+          codigo_ibge:     codibge
+
+        # Fonte: http://republicavirtual.com.br
+        # -------------------------------------
+    #    format: republicavirtual
+    #    remote_url:    'http://republicavirtual.com.br/web_cep.php'
+    #    remote_query:  'formato=json&cep='
+    #
+    #    # Do not change remote_fields to http://rceplivre.pc2consultoria.com
+    #    remote_fields:
+    #      resultado:       resultado
+    #      uf:              uf
+    #      cidade:          cidade
+    #      bairro:          bairro
+    #      tipo_logradouro: tipo_logradouro
+    #      logradouro:      logradouro
+    #      cep:             cep
+    #    form_fields:
+    #      uf:              uf
+    #      cidade:          cidade
+    #      bairro:          bairro
+    #      tipo_logradouro: tipo_logradouro
+    #      logradouro:      logradouro
+    #      cep:             cep
 
 **Usando base local**
 
@@ -488,10 +528,6 @@ O último comando é para acessar o banco. Crie o campo ID como autoincrement na
 
     mysql> ALTER TABLE `CEP_Brazil` ADD `id` INT( 8 ) NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST ;
 
-Opcionalmente, para agilizar as buscas, um índice no campo `CEP` (demora um pouco);
-
-    mysql>
-
 E configure no seu `apps/SUA_APLICACAO/config/app.yml`
 
     all:
@@ -503,9 +539,26 @@ E configure no seu `apps/SUA_APLICACAO/config/app.yml`
 Uma vez instalado o servidor local como acima, basta, nas aplicações,
 instalar o brFormExtraPlugin e configurar o `remote_url`:
 
-all:
-  br_cep:
-    remote_url:    'http://meuservidorlocal.com.br/br_cep/index/'
+    all:
+      br_cep:
+        local_search:  false
+        remote_url:    'http://meuservidorlocal.com.br/br_cep/buscar/'
+        remote_query:  'cep='
+        remote_fields:
+          resultado:       resultado
+          uf:              uf
+          cidade:          cidade
+          bairro:          bairro
+          tipo_logradouro: tipo_logradouro
+          logradouro:      logradouro
+          cep:             cep
+        form_fields:
+          uf:              uf
+          cidade:          cidade
+          bairro:          bairro
+          tipo_logradouro: tipo_logradouro
+          logradouro:      logradouro
+          cep:             cep
 
 Não esqueça de não colocar
 

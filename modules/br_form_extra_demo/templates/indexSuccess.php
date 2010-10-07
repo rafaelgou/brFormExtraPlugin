@@ -426,7 +426,6 @@ all:
 
     remote_url:    'http://ceplivre.pc2consultoria.com/index.php'
     remote_query:  'module=cep&formato=xml&cep='
-    remote_format: 'xml'
 
     # Do not change remote_fields to http://rceplivre.pc2consultoria.com
     remote_fields:
@@ -453,7 +452,7 @@ all:
 #    format: republicavirtual
 #    remote_url:    'http://republicavirtual.com.br/web_cep.php'
 #    remote_query:  'formato=json&cep='
-#    remote_format: 'json'
+#
 #    # Do not change remote_fields to http://rceplivre.pc2consultoria.com
 #    remote_fields:
 #      resultado:       resultado
@@ -470,8 +469,6 @@ all:
 #      tipo_logradouro: tipo_logradouro
 #      logradouro:      logradouro
 #      cep:             cep
-
-
 ");?>
 </pre>
 
