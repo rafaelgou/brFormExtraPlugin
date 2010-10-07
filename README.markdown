@@ -2,6 +2,21 @@
 
 Widgets e validadores para comunidade brasileira do symfony.
 
+Online DEMO: <http://symfony.rgou.net> ou <http://rgou.net/symfony>.
+
+## Requisitos ##
+
+O Widget *sfWidgetFormInputCep* necessita do jQuery 1.4.2 ou superior (**não** funciona com 1.3.2).
+
+Uma boa forma de obtê-lo é instalar o plugin <www.symfony-project.org/plugins/sfJqueryReloadedPlugin>:
+
+    php symfony plugin:install sfJqueryReloadedPlugin
+
+E configurar no :
+
+    all:
+     .settings:
+        jquery_core:      jquery-1.4.2.min.js
 
 ## Instalação ##
 
@@ -28,6 +43,15 @@ Limpe o cache para habilitar ao autoloading encontrar as classes:
 E, por último, publique os assets.
 
     php symfony plugin:publish-assets
+
+### Cep Brasil ###
+
+É preciso habilitar o módulo que recebe as requisições AJAX editando o arquivo `apps/SUA_APLICACAO/config/settings.yml` e
+acrescentando a `enabled_modules`
+
+    all:
+      .settings:
+        enabled_modules: [default, ( ... ), br_cep]
 
 ## Utilizando brFormExtraPlugin ##
 
@@ -287,7 +311,7 @@ Este validador foi copiado de: (http://trac.symfony-project.org/attachment/ticke
 enviado por logistiker. Realizei apenas ajustes cosméticos, como mudança do nome.
 
 É necessário definir o idioma (culture) do usuário para a desejada. A forma mais simples é editar o
-arquivo **apps/SUA_APLICACAO/config/settings.yml** e acrescentar:
+arquivo `apps/SUA_APLICACAO/config/settings.yml` e acrescentar:
 
     all:
       .settings:
@@ -339,11 +363,157 @@ não precisa ser enviado, é recuperado automaticamente se não informado.
 - min
 - max
 
+
+### sfWidgetFormInputCep , sfValidatorCep ###
+
+- **sfWidgetFormInputCep**:
+  Input com busca de CEP
+- **sfValidatorCep**:
+  Valida CEP remotamente (ainda não ativo - retorna sempre TRUE no momento).
+
+**Exemplo**
+
+    <?php
+      $fields_for_cep = array(
+        "logradouro" => "demo_logradouro",
+        "bairro"     => "demo_bairro",
+        "cidade"     => "demo_cidade",
+        "uf"         => "demo_uf_cep",
+        "cep"        => "demo_cep"
+      );
+
+      $this->form->setWidget("cep", new sfWidgetFormInputCep( array("fields" => $fields_for_cep) ));
+      $this->form->getWidgetSchema()->setLabel("cep", "CEP");
+      $form->setValidator("cep", new sfValidatorCep());
+
+      $this->form->setWidget("logradouro", new sfWidgetFormInput());
+      $this->form->getWidgetSchema()->setLabel("logradouro", "Logradouro");
+      $form->setValidator("logradouro", new sfValidatorString());
+
+      $this->form->setWidget("bairro", new sfWidgetFormInput());
+      $this->form->getWidgetSchema()->setLabel("bairro", "Bairro");
+      $form->setValidator("bairro", new sfValidatorString());
+
+      $this->form->setWidget("cidade", new sfWidgetFormInput());
+      $this->form->getWidgetSchema()->setLabel("cidade", "Cidade");
+      $form->setValidator("cidade", new sfValidatorString());
+
+      $this->form->setWidget("uf_cep", new sfWidgetFormChoiceUFBR());
+      $this->form->getWidgetSchema()->setLabel("uf_cep", "UF");
+      $form->setValidator("uf_cep", new sfValidatorString());
+    ?>
+
+    <p>
+      <?php echo $form["cep"]->renderError() ?>
+      <?php echo $form["cep"]->renderLabel() ?>
+      <?php echo $form["cep"] ?>
+    <br/>
+      <?php echo $form["logradouro"]->renderError() ?>
+      <?php echo $form["logradouro"]->renderLabel() ?>
+      <?php echo $form["logradouro"] ?>
+    <br/>
+      <?php echo $form["bairro"]->renderError() ?>
+      <?php echo $form["bairro"]->renderLabel() ?>
+      <?php echo $form["bairro"] ?>
+    <br/>
+      <?php echo $form["cidade"]->renderError() ?>
+      <?php echo $form["cidade"]->renderLabel() ?>
+      <?php echo $form["cidade"] ?>
+    <br/>
+      <?php echo $form["uf_cep"]->renderError() ?>
+      <?php echo $form["uf_cep"]->renderLabel() ?>
+      <?php echo $form["uf_cep"] ?>
+    </p>
+
+**Opções**
+
+- fields
+  Fields to feed with the response
+
+**plugins/brFormExtraPlugin/config/state.yml**
+
+    all:
+      br_cep:
+        # Buscar na base local (Cep Brasil importado)
+        local_search:  false
+
+        # Array com lista de IPs que podem acessar remotamente
+        # ou false para acesso público
+        # Exemplo
+        #client_ips: ['200.217.64.146', '200.217.64.147']
+        client_ips: false
+
+        # Se definido, requisição ajax é direta para remote_url,
+        # e não para url_for('br_cep/buscar')
+        direct_url:    false
+
+        # Default: http://republicavirtual.com.br
+        remote_url:    'http://republicavirtual.com.br/web_cep.php'
+        remote_query:  'cep='
+        remote_format: 'json'
+
+        # Do not change to http://republicavirtual.com.br
+        remote_fields:
+          uf:              uf
+          cidade:          cidade
+          bairro:          bairro
+          tipo_logradouro: tipo_logradouro
+          logradouro:      logradouro
+          cep:             cep
+        form_fields:
+          uf:              uf
+          cidade:          cidade
+          bairro:          bairro
+          tipo_logradouro: tipo_logradouro
+          logradouro:      logradouro
+          cep:             cep
+
+**Usando base local**
+
+Para utilizar uma base local, baixe o atualizado do República Virtual,
+renomeie o arquivo `plugins/brFormExtraPlugin/config/doctrine/schema_cep.yml.tmpl`
+para `plugins/brFormExtraPlugin/config/doctrine/schema_cep.yml`
+
+    mv plugins/brFormExtraPlugin/config/doctrine/schema_cep.yml.tmpl \
+       plugins/brFormExtraPlugin/config/doctrine/schema_cep.yml
+
+Baixe e crie a tabela do CEP Brazil
+
+    wget http://www.republicavirtual.com.br/cep/download/cep.sql.bz2
+    bunzip cep.sql.bz2
+    mysql BANCO -u USUARIO -p < cep.sql
+    mysql BANCO -u USUARIO -p
+
+O último comando é para acessar o banco. Crie o campo ID como autoincrement na tabela.
+
+    mysql> ALTER TABLE `CEP_Brazil` ADD `id` INT( 8 ) NOT NULL AUTO_INCREMENT PRIMARY KEY FIRST ;
+
+Opcionalmente, para agilizar as buscas, um índice no campo `CEP` (demora um pouco);
+
+    mysql>
+
+E configure no seu `apps/SUA_APLICACAO/config/app.yml`
+
+    all:
+      br_cep:
+        local_search:  true
+
+**Configurando um servidor de CEP para suas aplicações**
+
+Uma vez instalado o servidor local como acima, basta, nas aplicações,
+instalar o brFormExtraPlugin e configurar o `remote_url`:
+
+all:
+  br_cep:
+    remote_url:    'http://meuservidorlocal.com.br/br_cep/index/'
+
+Não esqueça de não colocar
+
 ## Demonstração ##
 
-Habilite a demonstração editando o arquivo **apps/SUA_APLICACAO/config/settings.yml** e
-acrescentando a **enabled_modules**
+Habilite a demonstração editando o arquivo `apps/SUA_APLICACAO/config/settings.yml` e
+acrescentando a `enabled_modules`
 
     all:
       .settings:
-        enabled_modules: [default, br_form_extra_demo]
+        enabled_modules: [default, ( ... ), br_form_extra_demo]

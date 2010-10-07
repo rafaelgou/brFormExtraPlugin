@@ -37,13 +37,40 @@ class br_form_extra_demoActions extends Basebr_form_extra_demoActions
     $this->form->setWidget("data_i18n", new sfWidgetFormInputText());
     $this->form->getWidgetSchema()->setLabel("data_i18n", "Data i18n");
 
+    $fields_for_cep = array(
+      "logradouro" => "demo_logradouro",
+      "bairro"     => "demo_bairro",
+      "cidade"     => "demo_cidade",
+      "uf"         => "demo_uf_cep",
+      "cep"        => "demo_cep"
+    );
+    $this->form->setWidget("cep", new sfWidgetFormInputCep( array("fields" => $fields_for_cep) ));
+    $this->form->getWidgetSchema()->setLabel("cep", "CEP");
+
+    $this->form->setWidget("logradouro", new sfWidgetFormInput());
+    $this->form->getWidgetSchema()->setLabel("logradouro", "Logradouro");
+
+    $this->form->setWidget("bairro", new sfWidgetFormInput());
+    $this->form->getWidgetSchema()->setLabel("bairro", "Bairro");
+
+    $this->form->setWidget("cidade", new sfWidgetFormInput());
+    $this->form->getWidgetSchema()->setLabel("cidade", "Cidade");
+
+    $this->form->setWidget("uf_cep", new sfWidgetFormChoiceUFBR());
+    $this->form->getWidgetSchema()->setLabel("uf_cep", "UF");
+
     $this->form->setValidators(array(
         "uf" =>          new sfValidatorChoiceStates(),
-        "uf_checkbox" => new sfValidatorChoiceStates(array('min'=>5, 'max'=>10)),
+        "uf_checkbox" => new sfValidatorChoiceStates(array("min"=>5, "max"=>10)),
         "cpf" =>         new sfValidatorCpfCnpj(array("type"=>"cpf")),
         "cnpj" =>        new sfValidatorCpfCnpj(array("type"=>"cnpj")),
         "cpfcnpj" =>     new sfValidatorCpfCnpj(array("type"=>"cpfcnpj")),
         "data_i18n" =>   new sfValidatori18nDate(),
+        "cep" =>         new sfValidatorCep(),
+        "logradouro" =>  new sfValidatorString(array("required"=>false)),
+        "bairro" =>      new sfValidatorString(array("required"=>false)),
+        "cidade" =>      new sfValidatorString(array("required"=>false)),
+        "uf_cep" =>      new sfValidatorString(array("required"=>false)),
       ));
     //$f = new sfForm;
 

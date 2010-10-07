@@ -1,0 +1,36 @@
+all:
+  br_cep:
+    # Buscar na base local (Cep Brasil importado)
+    local_search:  false
+    
+    # Array com lista de IPs que podem acessar remotamente
+    # ou false para acesso público
+    # Exemplo
+    #client_ips: ['200.217.64.146', '200.217.64.147']
+    client_ips: false
+    
+    # Se definido, requisição ajax é direta para remote_url,
+    # e não para url_for('br_cep/buscar') 
+    direct_url:    false
+
+    # Default: http://republicavirtual.com.br
+    remote_url:    'http://republicavirtual.com.br/web_cep.php'
+    remote_query:  'cep='
+    remote_format: 'json'
+
+    # Do not change to http://republicavirtual.com.br
+    remote_fields:
+      uf:              uf
+      cidade:          cidade
+      bairro:          bairro
+      tipo_logradouro: tipo_logradouro
+      logradouro:      logradouro
+      cep:             cep
+    form_fields:
+      uf:              uf
+      cidade:          cidade
+      bairro:          bairro
+      tipo_logradouro: tipo_logradouro
+      logradouro:      logradouro
+      cep:             cep
+

@@ -7,10 +7,9 @@ body {margin: 0 50px;}
 .error_list {color:red;}
 pre {background: #666;color: #fff; margin: 0 20px;}
 h1 {border-bottom: 3px solid #555}
-h2 {border-bottom: 1px solid #555; margin-top: 100px;}
-h3 {border-bottom: 1px dashed #555; font-style: italic}
+h2 {border-bottom: 1px solid #555; margin-top: 50px;}
+h3 {border-bottom: 1px dashed #555; font-style: italic;  margin-top: 20px;}
 p  {margin: 10px 20px;}
-pre {margin: 0 20px;}
 </style>
 <h1>brFormExtraPlugin Demonstração</h1>
 
@@ -314,7 +313,87 @@ Informe uma data no padrão do idioma definido para o usuário.
 ');?>
 </pre>
 
+<h2>sfWidgetFormInputCEP , sfValidatorCEP</h2>
 
+<h3>Exemplos</h3>
+
+<p>
+  <?php echo $form["cep"]->renderError() ?>
+  <?php echo $form["cep"]->renderLabel() ?>
+  <?php echo $form["cep"] ?>
+<br/>
+  <?php echo $form["logradouro"]->renderError() ?>
+  <?php echo $form["logradouro"]->renderLabel() ?>
+  <?php echo $form["logradouro"] ?>
+<br/>
+  <?php echo $form["bairro"]->renderError() ?>
+  <?php echo $form["bairro"]->renderLabel() ?>
+  <?php echo $form["bairro"] ?>
+<br/>
+  <?php echo $form["cidade"]->renderError() ?>
+  <?php echo $form["cidade"]->renderLabel() ?>
+  <?php echo $form["cidade"] ?>
+<br/>
+  <?php echo $form["uf_cep"]->renderError() ?>
+  <?php echo $form["uf_cep"]->renderLabel() ?>
+  <?php echo $form["uf_cep"] ?>
+</p>
+
+<pre>
+<?php echo htmlspecialchars('
+  <?php
+
+    $fields_for_cep = array(
+      "logradouro" => "demo_logradouro",
+      "bairro"     => "demo_bairro",
+      "cidade"     => "demo_cidade",
+      "uf"         => "demo_uf_cep",
+      "cep"        => "demo_cep"
+    );
+
+    $this->form->setWidget("cep", new sfWidgetFormInputCep( array("fields" => $fields_for_cep) ));
+    $this->form->getWidgetSchema()->setLabel("cep", "CEP");
+    $form->setValidator("cep", new sfValidatorCep());
+
+    $this->form->setWidget("logradouro", new sfWidgetFormInput());
+    $this->form->getWidgetSchema()->setLabel("logradouro", "Logradouro");
+    $form->setValidator("logradouro", new sfValidatorString());
+
+    $this->form->setWidget("bairro", new sfWidgetFormInput());
+    $this->form->getWidgetSchema()->setLabel("bairro", "Bairro");
+    $form->setValidator("bairro", new sfValidatorString());
+
+    $this->form->setWidget("cidade", new sfWidgetFormInput());
+    $this->form->getWidgetSchema()->setLabel("cidade", "Cidade");
+    $form->setValidator("cidade", new sfValidatorString());
+
+    $this->form->setWidget("uf_cep", new sfWidgetFormChoiceUFBR());
+    $this->form->getWidgetSchema()->setLabel("uf_cep", "UF");
+    $form->setValidator("uf_cep", new sfValidatorString());
+
+    <p>
+      <?php echo $form["cep"]->renderError() ?>
+      <?php echo $form["cep"]->renderLabel() ?>
+      <?php echo $form["cep"] ?>
+    <br/>
+      <?php echo $form["logradouro"]->renderError() ?>
+      <?php echo $form["logradouro"]->renderLabel() ?>
+      <?php echo $form["logradouro"] ?>
+    <br/>
+      <?php echo $form["bairro"]->renderError() ?>
+      <?php echo $form["bairro"]->renderLabel() ?>
+      <?php echo $form["bairro"] ?>
+    <br/>
+      <?php echo $form["cidade"]->renderError() ?>
+      <?php echo $form["cidade"]->renderLabel() ?>
+      <?php echo $form["cidade"] ?>
+    <br/>
+      <?php echo $form["uf_cep"]->renderError() ?>
+      <?php echo $form["uf_cep"]->renderLabel() ?>
+      <?php echo $form["uf_cep"] ?>
+    </p>
+');?>
+</pre>
 
 <br/><br/>
 

@@ -1,6 +1,13 @@
+/* sfWidgetFormChoiceState */
 .sfWidgetFormChoiceState fieldset {float: left;margin-right: 5px;padding: 2px;text-align: left;width: 120px;height: 200px;font-size: 9px;background-color: #dedede;}
 .sfWidgetFormChoiceState legend {padding: 2px;background-color: #fff;border: 1px solid #dedede;}
 .sfWidgetFormChoiceState fieldset ul {padding:0;margin: 0; list-style: none;}
 .sfWidgetFormChoiceState fieldset li {padding:0;margin: 0;}
 .sfWidgetFormChoiceState fieldset input {padding:0;margin: 2px;}
 .sfWidgetFormChoiceState label {display: inline;float: none;margin:0;padding:0;}
+
+/* sfWidgetFormInputCep */
+button.sfWidgetFormInputCep_find    {float: none; display: inline; cursor: pointer; width: 16px; height: 16px; border: none; background: transparent url(../images/find_16x16.png) no-repeat center center;}
+button.sfWidgetFormInputCep_loading {float: none; display: inline; cursor: pointer; width: 16px; height: 16px; border: none; background: transparent url(../images/ajax-loader-arrow.gif) no-repeat  center center;}
+button.sfWidgetFormInputCep_ok      {float: none; display: inline; cursor: pointer; width: 16px; height: 16px; border: none; background: transparent url(../images/ok_16x16.png) no-repeat center center;}
+button.sfWidgetFormInputCep_error   {float: none; display: inline; cursor: pointer; width: 16px; height: 16px; border: none; background: transparent url(../images/error_16x16.png) no-repeat center center;}
