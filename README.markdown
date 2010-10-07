@@ -560,7 +560,9 @@ instalar o brFormExtraPlugin e configurar o `remote_url`:
           logradouro:      logradouro
           cep:             cep
 
-Não esqueça de não colocar
+Evidentemente, é preciso limpar o cache.
+
+    php symfony clear:cache
 
 ## Demonstração ##
 
