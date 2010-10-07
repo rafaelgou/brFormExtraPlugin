@@ -2,7 +2,7 @@
 
 Widgets e validadores para comunidade brasileira do symfony.
 
-Online DEMO: <http://symfony.rgou.net> ou <http://rgou.net/symfony>.
+Online DEMO: <http://symfony.rgou.net/br_form_extra_demo> ou <http://rgou.net/symfony/br_form_extra_demo>.
 
 ## Requisitos ##
 
