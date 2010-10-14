@@ -369,9 +369,9 @@ não precisa ser enviado, é recuperado automaticamente se não informado.
 - **sfWidgetFormInputCep**:
   Input com busca de CEP
 - **sfValidatorCep**:
-  Valida CEP remotamente (ainda não ativo - retorna sempre TRUE no momento).
+  Valida CEP remotamente
 
-Utiliza ou o serviço do site CEPLivre (<http://republicavirtual.com.br/cep/>)
+Utiliza ou o serviço do site CEPLivre (<http://republicavirtual.com.br/cep/> - aparentemente mais atualizado)
 ou do site Republica Virtual (<http://ceplivre.pc2consultoria.com/index.php>).
 
 **Exemplo**
@@ -508,6 +508,7 @@ ou do site Republica Virtual (<http://ceplivre.pc2consultoria.com/index.php>).
     #      logradouro:      logradouro
     #      cep:             cep
 
+
 **Usando base local**
 
 Para utilizar uma base local, baixe o atualizado do República Virtual,
@@ -533,6 +534,25 @@ E configure no seu `apps/SUA_APLICACAO/config/app.yml`
     all:
       br_cep:
         local_search:  true
+        client_ips: false # Caso queira limitar o acesso, um array com os IPS permitidos
+        # format:       não é necessário
+        # remote_url:   não é necessário
+        # remote_query: não é necessário
+        remote_fields:
+          resultado:       resultado
+          uf:              uf
+          cidade:          cidade
+          bairro:          bairro
+          tipo_logradouro: tipo_logradouro
+          logradouro:      logradouro
+          cep:             cep
+        form_fields:
+          uf:              uf
+          cidade:          cidade
+          bairro:          bairro
+          tipo_logradouro: tipo_logradouro
+          logradouro:      logradouro
+          cep:             cep
 
 **Configurando um servidor de CEP para suas aplicações**
 
@@ -542,6 +562,8 @@ instalar o brFormExtraPlugin e configurar o `remote_url`:
     all:
       br_cep:
         local_search:  false
+        client_ips: false
+        format: republicavirtual
         remote_url:    'http://meuservidorlocal.com.br/br_cep/buscar/'
         remote_query:  'cep='
         remote_fields:

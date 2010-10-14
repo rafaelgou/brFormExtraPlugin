@@ -125,6 +125,8 @@ class br_cepActions extends Basebr_cepActions
       } // if (sfConfig::get('app_br_cep_local_search'))
     } //if (! $cep = $request->getParameter('cep', false))
 
+    $location['cep'] = $cep_value;
+
     return $this->renderText( json_encode($location) );
   }
 }

@@ -45,13 +45,69 @@ class sfValidatorCep extends sfValidatorString
   {
     $clean = $this->valueClean( (string) $value );
 
-    if (false)
+    // Se configurado para busca local, então realiza consulta
+    if (sfConfig::get('app_br_cep_local_search'))
     {
-      throw new sfValidatorError($this, 'invalid');
+
+      $cep_record = Doctrine::getTable('CEP_Brazil')
+                      ->createQuery('c')
+                      ->addWhere('cep = ?',$clean)
+                      ->fetchOne();
+
+      if ( ! $cep_record)
+      {
+        throw new sfValidatorError($this, 'invalid');
+      }
+
+    // A busca é remota, procurando configurações
+    } else {
+
+      $cep_search = (strlen($clean) == 8)
+                    ? $cep_search = substr($clean, 0, 5) . '-' . substr($clean, 5, 3)
+                    : $clean;
+      // Realizando requisição
+      $url = sfConfig::get('app_br_cep_remote_url') . '?' .
+             sfConfig::get('app_br_cep_remote_query') .
+             $cep_search;
+
+      $content = file_get_contents($url);
+
+      $remote_fields = array_flip(sfConfig::get('app_br_cep_remote_fields'));
+
+      switch(sfConfig::get('app_br_cep_format'))
+      {
+        case 'republicavirtual':
+
+          if (! strlen($content))
+          {
+            throw new sfValidatorError($this, 'invalid');
+          }
+          break;
+
+        case 'ceplivre':
+
+          $xml = new SimpleXMLElement($content);
+
+          foreach ($xml->cep[0] as $key => $value)
+          {
+            if ($key == 'sucesso' )
+            {
+              $v = each($value[0]);
+              if ($v['value'] == '0' ) throw new sfValidatorError($this, 'invalid');
+            }
+          }
+          break;
+      }
+
+    } // if (sfConfig::get('app_br_cep_local_search'))
+
+    if ($this->getOption('formated'))
+    {
+      return $this->formatCEP($clean);
     } else {
       return $clean;
     }
-    
+
   }
 
   /**
