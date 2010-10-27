@@ -258,7 +258,7 @@ regions:
    *  * type:     Type of validation (cpfcnpj, cpf, cnpj - default: cpfcnpj)
    *  * formated: If true "clean" method returns a formated value, i.e. 000.000.000-00 (default: false)
                   Use to store formated value in DB
-
+   *  * use_cnpj_with_15_chars: Returns CNPJ with 15 characters
 ');?>
 </pre>
 

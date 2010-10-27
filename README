@@ -12,7 +12,7 @@ Uma boa forma de obtê-lo é instalar o plugin <www.symfony-project.org/plugins/
 
     php symfony plugin:install sfJqueryReloadedPlugin
 
-E configurar no :
+E configurar no `apps/SUA_APLICACAO/config/settings.yml`:
 
     all:
      .settings:
@@ -57,9 +57,9 @@ acrescentando a `enabled_modules`
 
 ### sfWidgetFormChoiceUFBR , sfValidatorChoiceStates ###
 
-- **sfWidgetFormChoiceUFBR**: 
+- **sfWidgetFormChoiceUFBR**:
   Renderiza um SELECT com lista de estados (UFs - Unidades da Federação) brasileiros
-- **sfValidatorChoiceStates**: 
+- **sfValidatorChoiceStates**:
   Valida lista de estados (UFs - Unidades da Federação) brasileiros
 
 **Exemplo 1**
@@ -143,7 +143,7 @@ acrescentando a `enabled_modules`
 - template:
   The template to use when grouping option in groups (%group% %options%)
 
-Dica: o melhor é configurar no arquivo YAML. 
+Dica: o melhor é configurar no arquivo YAML.
 
 **plugins/brFormExtraPlugin/config/state.yml**
 
@@ -401,7 +401,7 @@ ou do site Republica Virtual (<http://ceplivre.pc2consultoria.com/index.php>).
       $this->form->setWidget("cidade", new sfWidgetFormInput());
       $this->form->getWidgetSchema()->setLabel("cidade", "Cidade");
       $form->setValidator("cidade", new sfValidatorString());
-    
+
       $this->form->setWidget("uf_cep", new sfWidgetFormChoiceUFBR());
       $this->form->getWidgetSchema()->setLabel("uf_cep", "UF");
       $form->setValidator("uf_cep", new sfValidatorString());

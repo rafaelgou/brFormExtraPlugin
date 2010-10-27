@@ -12,7 +12,7 @@ Uma boa forma de obtê-lo é instalar o plugin <www.symfony-project.org/plugins/
 
     php symfony plugin:install sfJqueryReloadedPlugin
 
-E configurar no :
+E configurar no `apps/SUA_APLICACAO/config/settings.yml`:
 
     all:
      .settings:

@@ -27,6 +27,7 @@ class sfValidatorCpfCnpj extends sfValidatorString
    *  * type: Type of validation (cpfcnpj, cpf, cnpj - default: cpfcnpj)
    *  * formated: If true "clean" method returns a formated value, i.e. 000.000.000-00 (default: false)
    *              Use to store formated value in DB
+   *  * use_cnpj_with_15_chars: Returns CNPJ with 15 characters
    *
    * @param array $options   An array of options
    * @param array $messages  An array of error messages
@@ -39,6 +40,7 @@ class sfValidatorCpfCnpj extends sfValidatorString
     $this->setMessage('required', 'CPF/CNPJ Obrigatório');
     $this->addOption('type', 'cpfcnpj');
     $this->addOption('formated', false);
+    $this->addOption('use_cnpj_with_15_chars', false);
   }
 
   /**
@@ -65,11 +67,21 @@ class sfValidatorCpfCnpj extends sfValidatorString
         break;
 
     }
+
     if ($this->getOption('formated'))
     {
+
       return $this->formatCPFCNPJ($clean);
+
     } else {
+
+      if(strlen($clean) == 14 && $this->getOption('use_cnpj_with_15_chars'))
+	    {
+	      $clean =  '0' . $clean;
+	    }
+      
       return $clean;
+
     }
     
   }
@@ -180,17 +192,18 @@ class sfValidatorCpfCnpj extends sfValidatorString
              substr($value, 9, 2);
 
     } else {
-        $f = substr($value, 0, 2) . '.' .
-             substr($value, 2, 3) . '.' .
-             substr($value, 5, 3) . '/' .
-             substr($value, 8, 4) . '-' .
-             substr($value, 12, 2);
+      $value = substr($value, 0, 2) . '.' .
+               substr($value, 2, 3) . '.' .
+               substr($value, 5, 3) . '/' .
+               substr($value, 8, 4) . '-' .
+               substr($value, 12, 2);
      
-	    if(strlen($value) == 14)
+
+      if(strlen($value) == 14 && $this->getOption('use_cnpj_with_15_chars'))
 	    {
-	      $f =  '0' . $f; 
+	      $value =  '0' . $value;
 	    }
-        return $f;       
+      return $value;
     }
 
   }
