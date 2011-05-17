@@ -81,10 +81,10 @@ class br_cepActions extends Basebr_cepActions
                       ? $cep_search = substr($cep_value, 0, 5) . '-' . substr($cep_value, 5, 3)
                       : $cep_value;
         // Realizando requisição
-        $url = sfConfig::get('app_br_cep_remote_url') . '?' .
-               sfConfig::get('app_br_cep_remote_query') . 
-               $cep_search;
-//echo $url;
+        $url = str_replace('{CEP}', $cep_search,
+                           sfConfig::get('app_br_cep_remote_url') . '?' .
+                           sfConfig::get('app_br_cep_remote_query')
+                           );
         $content = file_get_contents($url);
 
         $remote_fields = array_flip(sfConfig::get('app_br_cep_remote_fields'));
@@ -117,6 +117,19 @@ class br_cepActions extends Basebr_cepActions
               {
                 $v = each($value[0]);
                 $location[$remote_fields[$key]] = $v['value'];
+              }
+            }
+            break;
+
+          case 'ceplivre_yql':
+
+            if (strlen($content))
+            {
+              $data = json_decode($content, true);
+              foreach ($data['query']['results']['cep'] as $key => $value)
+              {
+                if (isset($remote_fields[$key]))
+                  $location[$remote_fields[$key]] = trim($value);
               }
             }
             break;

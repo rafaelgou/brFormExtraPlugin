@@ -13,10 +13,37 @@ all:
 
     # Fonte: http://ceplivre.pc2consultoria.com
     # -----------------------------------------
-    format: ceplivre
+#    format: ceplivre
 
-    remote_url:    'http://ceplivre.pc2consultoria.com/index.php'
-    remote_query:  'module=cep&formato=xml&cep='
+#    remote_url:    'http://ceplivre.pc2consultoria.com/index.php'
+#    remote_query:  'module=cep&formato=xml&cep={CEP}'
+
+    # Do not change remote_fields to http://rceplivre.pc2consultoria.com
+#    remote_fields:
+#      resultado:       sucesso
+#      tipo_logradouro: tipo_logradouro
+#      logradouro:      logradouro
+#      uf:              estado_sigla
+#      uf_descricao:    estado
+#      cidade:          cidade
+#      bairro:          bairro
+#      cep:             cep
+#      codigo_ibge:     codigo_ibge
+
+#    form_fields:
+#      logradouro:      logradouro
+#      estado_sigla:    uf
+#      cidade:          cidade
+#      bairro:          bairro
+#      cep:             cep
+#      codigo_ibge:     codibge
+
+    # Fonte: http://query.yahooapis.com
+    # -----------------------------------------
+    format: ceplivre_yql
+
+    remote_url:    'http://query.yahooapis.com/v1/public/yql'
+    remote_query:  'q=select%20*%20from%20brazil.correios.ceplivre%20where%20cep%3D"{CEP}"&format=json&env=store://datatables.org/alltableswithkeys&callback='
 
     # Do not change remote_fields to http://rceplivre.pc2consultoria.com
     remote_fields:
@@ -42,7 +69,7 @@ all:
     # -------------------------------------
 #    format: republicavirtual
 #    remote_url:    'http://republicavirtual.com.br/web_cep.php'
-#    remote_query:  'formato=json&cep='
+#    remote_query:  'formato=json&cep={CEP}'
 #
 #    # Do not change remote_fields to http://rceplivre.pc2consultoria.com
 #    remote_fields:

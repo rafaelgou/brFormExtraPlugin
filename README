@@ -303,6 +303,44 @@ ou formatado (formated=>true) para armazenamento em banco de dados.
   If true "clean" method returns a formated value, i.e. 000.000.000-00 (default: false)
   Use to store formated value in DB
 
+###sfWidgetFormI18nNumber, sfValidatorI18nNumber###
+
+Widget e validador para número com casas decimais no padrão do idioma do usuário.
+Utiliza o sfContext para recuperar a "culture" do "user".
+Importados do plugin http://www.symfony-project.org/plugins/sfFormI18nNumberPlugin
+
+É necessário definir o idioma (culture) do usuário para a desejada. A forma mais simples é editar o
+arquivo `apps/SUA_APLICACAO/config/settings.yml` e acrescentar:
+
+    all:
+      .settings:
+        i18n:                   true
+        default_culture:        pt_BR
+
+**Exemplo**
+
+    <?php
+      $form->setWidget("numero_i18n", new sfWidgetFormI18nNumber());
+      $form->getWidgetSchema()->setLabel("numero_i18n", "Data i18n");
+      $form->setValidator("numero_i18n", new sfValidatorI18nNumber());
+    ?>
+    <p>
+      <?php echo $form["numero_i18n"]->renderError() ?>
+      <?php echo $form["numero_i18n"]->renderLabel() ?>
+      <?php echo $form["numero_i18n"] ?>
+    </p>
+
+**Opções**
+
+- culture:
+  Widget e Validator podem receber um idioma (culture) arbitrário, como no exemplo
+
+    <?php
+      $form->setWidget("numero_i18n", new sfWidgetFormI18nNumber(array('culture' => 'fr')));
+      $form->getWidgetSchema()->setLabel("numero_i18n", "Data i18n");
+      $form->setValidator("numero_i18n", new sfValidatorI18nNumber(array('culture' => 'fr')));
+    ?>
+
 ###sfValidatori18nDate###
 
 Valida uma data enviada por um input text contra o padrão do idioma do usuário.
